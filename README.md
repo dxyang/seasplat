@@ -5,19 +5,18 @@ Daniel Yang, John J. Leonard, Yogesh Girdhar
 We introduce SeaSplat, a method to enable real-time rendering of underwater scenes leveraging recent advances in 3D radiance fields. Underwater scenes are challenging visual environments, as rendering through a medium such as water introduces both range and color dependent effects on image capture. We constrain 3D Gaussian Splatting (3DGS), a recent advance in radiance fields enabling rapid training and real-time rendering of full 3D scenes, with a physically grounded underwater image formation model. Applying SeaSplat to the real-world scenes from SeaThru-NeRF dataset, a scene collected by an underwater vehicle in the US Virgin Islands, and simulation-degraded real-world scenes, not only do we see increased quantitative performance on rendering novel viewpoints from the scene with the medium present, but are also able to recover the underlying true color of the scene and restore renders to be without the presence of the intervening medium. We show that the underwater image formation helps learn scene structure, with better depth maps, as well as show that our improvements maintain the significant computational improvements afforded by leveraging a 3D Gaussian representation.
 
 ## Setup
+The below presumes Ubuntu 22.04 with CUDA 12.2 installed but other versions of CUDA should be ok (the Docker container used is CUDA 11.8)
 
 ```
 # clone the repo
-git clone git@github.com:dxyang/seasplat.git
-git submodule init
-git submodule update
+git clone git@github.com:dxyang/seasplat.git --recursive
 
 # create a virtual environment
-pyenv virtualenv 3.10 seasplat-py310
-pip install --upgrade pip
+conda create --name seasplat_py310 -y python=3.10
+conda activate seasplat_py310
 
 # install pytorch (system dependent)
-pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118
+pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu121
 
 # standard pip dependencies
 pip install -r requirements.txt
@@ -39,7 +38,7 @@ docker run \
 -v ~/localdata:/home/user/localdata \
 -v ~/localdata/code:/home/user/code \
 --rm -it --shm-size=64gb \
--p 7010:7010 seasplat:latest
+seasplat:latest
 ```
 
 ## Data
